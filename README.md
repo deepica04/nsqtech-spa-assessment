@@ -1,0 +1,1 @@
+# nsqtech-spa-assessment
