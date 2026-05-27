@@ -1,0 +1,162 @@
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">NSQ</div>
+      <span>NSQTech</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" *ngIf="isAdmin" routerLink="/admin">
+        <span class="nav-icon">👥</span>
+        <span>User Management</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip" *ngIf="userDetails">
+        <div class="user-avatar">{{ userDetails.name.charAt(0) }}</div>
+        <div class="user-info">
+          <span class="user-name">{{ userDetails.name }}</span>
+          <span class="user-role">{{ userDetails.role }}</span>
+        </div>
+      </div>
+      <button class="btn-logout" (click)="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div>
+        <h1>My Dashboard</h1>
+        <p>Welcome back, <strong>{{ currentUser?.name }}</strong> · {{ currentUser?.role }}</p>
+      </div>
+      <button class="btn-refresh" (click)="refreshRecords()" [disabled]="isLoadingRecords">
+        🔄 Refresh
+      </button>
+    </header>
+
+    <!-- User details card -->
+    <section class="user-card" *ngIf="!isLoadingUser && userDetails">
+      <div class="user-card-avatar">{{ userDetails.name.charAt(0) }}</div>
+      <div class="user-card-info">
+        <h3>{{ userDetails.name }}</h3>
+        <p>{{ userDetails.email }}</p>
+      </div>
+      <div class="user-card-badges">
+        <span class="badge badge-role">{{ userDetails.role }}</span>
+        <span class="badge badge-dept">{{ userDetails.department }}</span>
+      </div>
+      <div class="user-card-id">
+        <small>User ID</small>
+        <strong>{{ userDetails.userId }}</strong>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-grid">
+      <div class="stat-card stat-total">
+        <div class="stat-num">{{ records.length }}</div>
+        <div class="stat-label">Total Records</div>
+      </div>
+      <div class="stat-card stat-active">
+        <div class="stat-num">{{ activeCount }}</div>
+        <div class="stat-label">Active</div>
+      </div>
+      <div class="stat-card stat-pending">
+        <div class="stat-num">{{ pendingCount }}</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-card stat-high">
+        <div class="stat-num">{{ highPriCount }}</div>
+        <div class="stat-label">High Priority</div>
+      </div>
+    </section>
+
+    <!-- Records section -->
+    <section class="records-section">
+      <div class="records-header">
+        <h2>My Records</h2>
+
+        <!-- Filters -->
+        <div class="filters">
+          <input
+            type="text"
+            placeholder="🔍 Search..."
+            [(ngModel)]="searchQuery"
+            (input)="onFilterChange()"
+            class="filter-input"
+          />
+          <select [(ngModel)]="statusFilter" (change)="onFilterChange()" class="filter-select">
+            <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+          </select>
+          <select [(ngModel)]="priorityFilter" (change)="onFilterChange()" class="filter-select">
+            <option *ngFor="let p of priorityOptions" [value]="p">{{ p }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Loading spinner (async demonstration) -->
+      <div *ngIf="isLoadingRecords">
+        <app-spinner message="Fetching records asynchronously... please wait"></app-spinner>
+      </div>
+
+      <!-- Error state -->
+      <div class="alert-error" *ngIf="!isLoadingRecords && loadError">
+        ⚠️ {{ loadError }}
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="!isLoadingRecords && !loadError && filteredRecords.length === 0">
+        <span>📭</span>
+        <p>No records found matching your filters.</p>
+      </div>
+
+      <!-- Records table -->
+      <div class="table-wrapper" *ngIf="!isLoadingRecords && !loadError && filteredRecords.length > 0">
+        <table class="records-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of filteredRecords; let i = index">
+              <td class="index-col">{{ i + 1 }}</td>
+              <td>
+                <div class="record-title">{{ record.title }}</div>
+                <div class="record-desc">{{ record.description }}</div>
+              </td>
+              <td><span class="category-tag">{{ record.category }}</span></td>
+              <td>
+                <span class="badge-status" [ngClass]="'status-' + record.status.toLowerCase()">
+                  {{ record.status }}
+                </span>
+              </td>
+              <td>
+                <span class="badge-priority" [ngClass]="'priority-' + record.priority.toLowerCase()">
+                  {{ record.priority }}
+                </span>
+              </td>
+              <td class="date-col">{{ record.createdAt | date:'dd MMM yyyy' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>

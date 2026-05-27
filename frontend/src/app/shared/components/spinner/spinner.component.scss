@@ -1,0 +1,47 @@
+.spinner-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+
+  .spinner-container {
+    text-align: center;
+  }
+
+  .spinner-ring {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+
+    div {
+      box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 51px;
+      height: 51px;
+      margin: 6px;
+      border: 5px solid #6c63ff;
+      border-radius: 50%;
+      animation: spinner-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #6c63ff transparent transparent transparent;
+
+      &:nth-child(1) { animation-delay: -0.45s; }
+      &:nth-child(2) { animation-delay: -0.3s; }
+      &:nth-child(3) { animation-delay: -0.15s; }
+    }
+  }
+
+  .spinner-message {
+    margin-top: 16px;
+    color: #6c63ff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+}
+
+@keyframes spinner-ring {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
