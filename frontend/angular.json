@@ -16,29 +16,29 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/nsqtech-frontend",
-            "index":      "src/index.html",
-            "main":       "src/main.ts",
-            "polyfills":  ["zone.js"],
-            "tsConfig":   "tsconfig.json",
-            "assets":     ["src/favicon.ico", "src/assets"],
-            "styles":     ["src/styles.scss"],
-            "scripts":    []
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.json",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
+            "scripts": []
           },
           "configurations": {
             "production": {
               "budgets": [
-                { "type": "initial",   "maximumWarning": "500kb", "maximumError": "1mb" },
+                { "type": "initial", "maximumWarning": "500kb", "maximumError": "1mb" },
                 { "type": "anyComponentStyle", "maximumWarning": "2kb", "maximumError": "4kb" }
               ],
               "outputHashing": "all"
             },
             "development": {
               "buildOptimizer": false,
-              "optimization":   false,
-              "vendorChunk":    true,
+              "optimization": false,
+              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap":      true,
-              "namedChunks":    true
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
@@ -46,12 +46,15 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production":  { "buildTarget": "nsqtech-frontend:build:production" },
-            "development": { "buildTarget": "nsqtech-frontend:build:development" }
+            "production": { "browserTarget": "nsqtech-frontend:build:production" },
+            "development": { "browserTarget": "nsqtech-frontend:build:development" }
           },
           "defaultConfiguration": "development"
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

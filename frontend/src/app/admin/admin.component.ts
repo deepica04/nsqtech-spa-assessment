@@ -107,7 +107,7 @@ export class AdminComponent implements OnInit {
         this.closeModals();
         this.loadUsers();
       },
-      error: (err) => { this.userError = err.error?.message || 'Failed to create user.'; },
+      error: (_err) => { this.userError = err.error?.message || 'Failed to create user.'; },
     });
   }
 
@@ -120,7 +120,7 @@ export class AdminComponent implements OnInit {
         this.closeModals();
         this.loadUsers();
       },
-      error: (err) => { this.userError = err.error?.message || 'Failed to update user.'; },
+      error: (_err) => { this.userError = err.error?.message || 'Failed to update user.'; },
     });
   }
 
@@ -132,7 +132,7 @@ export class AdminComponent implements OnInit {
         this.showSuccess('User deleted.');
         this.loadUsers();
       },
-      error: (err) => { this.userError = err.error?.message || 'Failed to delete user.'; },
+      error: (_err) => { this.userError = err.error?.message || 'Failed to delete user.'; },
     });
   }
 

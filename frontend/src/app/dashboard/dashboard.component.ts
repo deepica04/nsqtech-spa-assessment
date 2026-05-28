@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from '../../core/services/auth.service';
 import { RecordService, Record } from '../../core/services/record.service';
 import { UserService } from '../../core/services/user.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
         this.applyFilters();
         this.isLoadingRecords = false;
       },
-      error: (err) => {
+      error: (_err) => {
         this.loadError = err.error?.message || 'Failed to load records.';
         this.isLoadingRecords = false;
       },
